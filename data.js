@@ -10,6 +10,11 @@ let cars = [
 exports.cars = cars
 
 exports.getAll = () => {
-    // return all cars
-    return cars
-    };
+    return cars.forEach((obj) => {
+        "Make :", obj.make;
+        "Model :", obj.model;
+        "Engine :", obj.engine;
+        "Mpg :", obj.mpg;
+        "MSRP :", obj.msrp;
+    });
+}
