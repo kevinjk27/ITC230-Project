@@ -1,0 +1,19 @@
+{
+  "name": "itc230-project",
+  "version": "1.0.0",
+  "description": "itc230 homework projects",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kevinjk27/ITC230-Project.git"
+  },
+  "author": "Kevin Kantono",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kevinjk27/ITC230-Project/issues"
+  },
+  "homepage": "https://github.com/kevinjk27/ITC230-Project#readme"
+}
