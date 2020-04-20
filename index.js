@@ -7,12 +7,10 @@ http.createServer((req, res) => {
     switch (path) {
         case '/':
             const fs = require("fs");
-            fs.readFile("data.js", (err, data) => {
-                if (err) return console.error(err);
-                res.writeHead(200, { 'Content-Type': 'text/plain' });
-                res.end('Welcome to Kevin\'s ITC230 \n' + 
+            res.writeHead(200, { 'Content-Type': 'text/plain' });
+            res.end('Welcome to Kevin\'s ITC230 \n' +
                 'Total number of items in array : ' + getAllCars.length)
-            });
+                ;
             break;
         case '/about':
             res.writeHead(200, { 'Content-Type': 'text/plain' });
