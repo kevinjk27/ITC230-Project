@@ -6,7 +6,6 @@ http.createServer((req, res) => {
     const path = req.url.toLowerCase();
     switch (path) {
         case '/':
-            const fs = require("fs");
             res.writeHead(200, { 'Content-Type': 'text/plain' });
             res.end('Welcome to Kevin\'s ITC230 \n' +
                 'Total number of items in array : ' + getAllCars.length)
