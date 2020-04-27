@@ -9,18 +9,21 @@ let cars = [
 
 
 exports.getAll = () => {
-    return cars
+    return cars;
 };
 
-
-/*
-exports.getAll = () => {
-    return cars.forEach((obj) => {
-        "Make :", obj.make;
-        "Model :", obj.model;
-        "Engine :", obj.engine;
-        "Mpg :", obj.mpg;
-        "MSRP :", obj.msrp;
-    });
+exports.getMake = () => {
+    return cars.make;
 }
-*/
+
+exports.getDetails = () => {
+    /*
+    return cars.forEach((item) => {
+        "Make :", this.make;
+        "Model :", this.model;
+        "Engine :", this.engine;
+        "Mpg :", this.mpg;
+        "MSRP :", this.msrp;
+    });
+    */
+}

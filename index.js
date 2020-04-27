@@ -1,23 +1,60 @@
+//CONFIGURATION!!
+'use strict'
 const http = require("http");
 const cars = require('./data');
-let getAllCars = cars.getAll();
+let allCars = cars.getAll(); //getting full list of the data.js
+let carMakes = cars.getMake();
 
-http.createServer((req, res) => {
-    const path = req.url.toLowerCase();
-    switch (path) {
-        case '/':
-            res.writeHead(200, { 'Content-Type': 'text/plain' });
-            res.end('Welcome to Kevin\'s ITC230 \n' +
-                'Total number of items in array : ' + getAllCars.length)
-                ;
-            break;
-        case '/about':
-            res.writeHead(200, { 'Content-Type': 'text/plain' });
-            res.end('My name is Kevin. I am from Indonesia. This is my 5th quarter in Seattle Central to pursue AAS degree in Website Development. I\'m taking this course because in WEB150 I was only being taught about plain vanilla JS. As this language is really popular among the developers and the application is so extensive, I\'d like to learn more about Node, Vue, React Native and Express.');
-            break;
-        default:
-            res.writeHead(404, { 'Content-Type': 'text/plain' });
-            res.end('ERROR: 404 Not found');
-            break;
-    }
-}).listen(process.env.PORT || 3000);
+
+
+
+const express = require("express");
+const bodyParser = require("body-parser");
+
+const app = express();
+const exphbs = require("express-handlebars");
+app.engine('handlebars', exphbs({ defaultLayout: false }));
+app.set('view engine', 'handlebars');
+
+
+app.set('port', process.env.PORT || 3000);
+app.use(express.static(__dirname + '/public')); // set location for static files
+app.use(bodyParser.urlencoded({ extended: true })); // parse form submissions
+//END CONFIGURATION!!
+
+
+
+// showing homepage in a dynamic file
+app.get('/', (req, res) => {
+    res.render('home', {cars: allCars});
+});
+
+
+// send plain text response
+app.get('/about', (req, res) => {
+    res.type('text/plain');
+    res.send('My name is Kevin. I am from Indonesia. This is my 5th quarter in Seattle Central to pursue AAS degree in Website Development. I\'m taking this course because in WEB150 I was only being taught about plain vanilla JS. As this language is really popular among the developers and the application is so extensive, I\'d like to learn more about Node, Vue, React Native and Express.');
+});
+
+// send content of 'home' view
+app.get('/detail', (req, res) => {
+    res.render('details', {msrp: req.query.car});
+   
+    // display parsed querystring object to the handlebar
+    // car is the keyword (key) to be searched more detail
+    // becomes ==> detail?car=model
+});
+
+
+
+
+
+// define 404 handler
+app.use((req, res) => {
+    res.type('text/plain');
+    res.status(404);
+    res.send('ERROR: 404 Not found');
+});
+
+app.listen(app.get('port'), () => {
+});
