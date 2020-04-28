@@ -3,7 +3,7 @@
 const http = require("http");
 const cars = require('./data');
 let allCars = cars.getAll(); //getting full list of the data.js
-let carMakes = cars.getMake();
+// let carDetails = cars.getCar();
 
 
 
@@ -38,7 +38,10 @@ app.get('/about', (req, res) => {
 
 // send content of 'home' view
 app.get('/detail', (req, res) => {
-    res.render('details', {msrp: req.query.car});
+    // let detail = cars.getDetails(req.query.msrp)
+    res.render('details', {msrp: req.query.car, });
+
+
    
     // display parsed querystring object to the handlebar
     // car is the keyword (key) to be searched more detail

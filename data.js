@@ -7,23 +7,15 @@ let cars = [
     { make: 'Honda', model: 'Pilot', engine: '3.5 L V6', mpg: 20, msrp: 31650 }
 ];
 
-
 exports.getAll = () => {
     return cars;
 };
 
-exports.getMake = () => {
-    return cars.make;
-}
 
-exports.getDetails = () => {
-    /*
-    return cars.forEach((item) => {
-        "Make :", this.make;
-        "Model :", this.model;
-        "Engine :", this.engine;
-        "Mpg :", this.mpg;
-        "MSRP :", this.msrp;
-    });
-    */
+
+exports.getDetails = (make) => {
+    return cars.find((car)=> {
+        return car.make === make;
+    })
+   
 }
