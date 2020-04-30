@@ -12,10 +12,9 @@ exports.getAll = () => {
 };
 
 
-
-exports.getDetails = (make) => {
-    return cars.find((car)=> {
+//return just ONE car
+exports.getCar = (make) => {
+    return cars.find((car) => {
         return car.make === make;
     })
-   
-}
+};

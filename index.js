@@ -26,7 +26,7 @@ app.use(bodyParser.urlencoded({ extended: true })); // parse form submissions
 
 // showing homepage in a dynamic file
 app.get('/', (req, res) => {
-    res.render('home', {cars: allCars});
+    res.render('home', { cars: allCars });
 });
 
 
@@ -38,16 +38,13 @@ app.get('/about', (req, res) => {
 
 // send content of 'home' view
 app.get('/detail', (req, res) => {
-    // let detail = cars.getDetails(req.query.msrp)
-    res.render('details', {msrp: req.query.car, });
-
-
-   
+    let detail = cars.getCar(req.query.make)
+    res.render('details', { make: req.query.make, car: detail });
+    // req.query.car is to be passed on home.handlebar
     // display parsed querystring object to the handlebar
     // car is the keyword (key) to be searched more detail
     // becomes ==> detail?car=model
 });
-
 
 
 

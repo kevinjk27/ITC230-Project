@@ -2,12 +2,13 @@
 
 <title>Car model: {{msrp}}</title>
 {{! if..else block }}
-{{#if msrp}}
-<h2>Make : {{make}}</h2>
-<h2>Model : {{model}}</h2>
-<h2>Engine : {{engine}}</h2>
-<h2>MPG : {{mpg}}</h2>
-<h2>MSRP : $ {{msrp}}</h2>
+
+{{#if make}}
+<h2>Make : {{car.make}}</h2>
+<h2>Model : {{car.model}}</h2>
+<h2>Engine : {{car.engine}}</h2>
+<h2>MPG : {{car.mpg}}</h2>
+<h2>MSRP : $ {{car.msrp}}</h2>
 {{else}}
   <h2>Please enter a new car model</h2>
 {{/if}}
