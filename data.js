@@ -7,6 +7,8 @@ let cars = [
     { make: 'Honda', model: 'Pilot', engine: '3.5 L V6', mpg: 20, msrp: 31650 }
 ];
 
+
+//return ALL cars
 exports.getAll = () => {
     return cars;
 };
@@ -14,6 +16,9 @@ exports.getAll = () => {
 
 //return just ONE car
 exports.getCar = (make) => {
+    //car is the value changes every time when the function is finding
+    //it will find the car make to match with the requested make on index.js
+    //once found, it will return as an object
     return cars.find((car) => {
         return car.make === make;
     })

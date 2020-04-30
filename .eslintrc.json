@@ -13,6 +13,8 @@
         "ecmaVersion": 2018
     },
     "rules": {
-        "no-unused-vars" : "warn"
+        "no-unused-vars" : "warn",
+        "prefer-arrow-callback": "warn",
+        "no-var": "warn"
     }
 }

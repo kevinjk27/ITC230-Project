@@ -40,10 +40,12 @@ app.get('/about', (req, res) => {
 app.get('/detail', (req, res) => {
     let detail = cars.getCar(req.query.make)
     res.render('details', { make: req.query.make, car: detail });
+    
     // req.query.car is to be passed on home.handlebar
     // display parsed querystring object to the handlebar
     // car is the keyword (key) to be searched more detail
     // becomes ==> detail?car=model
+    // car is then an object
 });
 
 
