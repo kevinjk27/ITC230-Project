@@ -23,3 +23,29 @@ exports.getCar = (make) => {
         return car.make === make;
     })
 };
+
+
+
+//querying based on car MODEL
+exports.getItem = (model) => {
+    return cars.find((car) => {
+        return car.model === model;
+    })
+};
+
+
+exports.addItem = (model) => {
+    if (cars.some(item => item.model === model) !== false) {
+        console.log(model + " has already existed in array!")
+    } else {
+        cars.splice(cars.length, 0, { make: 'Chevrolet', model: 'Camaro', engine: '2.0 L 4-cylinder', mpg: 22, msrp: 25990 })
+    }
+    return cars;
+}
+
+
+exports.deleteItem = (model) => {
+    let modelToDelete = model;
+    let newCars = cars.filter(car => car.model !== modelToDelete)
+    return newCars;
+};
