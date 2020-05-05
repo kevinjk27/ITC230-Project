@@ -28,6 +28,7 @@ exports.getCar = (make) => {
 
 //querying based on car MODEL
 exports.getItem = (model) => {
+    //getting full details of the one car
     return cars.find((car) => {
         return car.model === model;
     })
@@ -35,17 +36,32 @@ exports.getItem = (model) => {
 
 
 exports.addItem = (model) => {
+    //checking if the parameter is inside the array
     if (cars.some(item => item.model === model) !== false) {
         console.log(model + " has already existed in array!")
+        return { 'success': false }
+
+    //if not inside the array add this item
     } else {
         cars.splice(cars.length, 0, { make: 'Chevrolet', model: 'Camaro', engine: '2.0 L 4-cylinder', mpg: 22, msrp: 25990 })
+        // console.log (cars)
+        return { 'success': true }
     }
-    return cars;
 }
 
 
 exports.deleteItem = (model) => {
-    let modelToDelete = model;
-    let newCars = cars.filter(car => car.model !== modelToDelete)
-    return newCars;
-};
+    //checking if the parameter is inside the array
+    if (cars.some(item => item.model === model) === false) {
+        console.log("Array doesn't contain : " + model)
+        return { 'success': false }
+
+    }
+    //creating a new array called newCars by excluding the parameter
+    else {
+        let modelToDelete = model;
+        let newCars = cars.filter(car => car.model !== modelToDelete)
+        // console.log(newCars)
+        return { 'success': true }
+    }
+}

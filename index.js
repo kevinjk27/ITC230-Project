@@ -49,17 +49,6 @@ app.get('/detail', (req, res) => {
 });
 
 
-// let model = cars.getItem ("Atlas");
-// console.log(model);
-
-
-// let model1 = cars.addItem ("Camaro");
-// console.log(model1);
-
-
-// let model2 = cars.deleteItem ("Atlas");
-// console.log(model2);
-
 // define 404 handler
 app.use((req, res) => {
     res.type('text/plain');
@@ -69,3 +58,17 @@ app.use((req, res) => {
 
 app.listen(app.get('port'), () => {
 });
+
+
+/*
+Testing getItem, addItem & deleteItem functions
+
+let model = cars.getItem ("Atlas");
+console.log(model);
+
+let model1 = cars.addItem ("Camaro");
+console.log(model1);
+
+let model2 = cars.deleteItem ("Pilot");
+console.log(model2);
+*/
