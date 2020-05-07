@@ -4,9 +4,8 @@
   "description": "itc230 homework projects",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "eslint **/*.js",
-    "test": "mocha test/**"
+    "test": "mocha test/**",
+    "lint": "eslint **/*.js"
   },
   "repository": {
     "type": "git",
@@ -21,13 +20,12 @@
   "dependencies": {
     "body-parser": "^1.19.0",
     "express": "^4.17.1",
-    "express-handlebars": "^4.0.3"
+    "express-handlebars": "^4.0.3",
+    "mongoose": "^5.9.12"
   },
   "devDependencies": {
     "chai": "^4.2.0",
     "eslint": "^6.8.0",
     "mocha": "^7.1.2"
   }
-
-  
 }

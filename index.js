@@ -4,7 +4,7 @@ const http = require("http");
 const cars = require('./data');
 let allCars = cars.getAll(); //getting full list of the data.js
 // let carDetails = cars.getCar();
-
+const Car = require("./models/cars");
 
 
 
@@ -22,12 +22,21 @@ app.use(express.static(__dirname + '/public')); // set location for static files
 app.use(bodyParser.urlencoded({ extended: true })); // parse form submissions
 //END CONFIGURATION!!
 
+//using Express Routes Integration
+app.get('/', (req, res, next) => {
+    Car.find({}, (err, items) => {
+      if (err) return next(err);
+      console.log(items);
+      res.render('home', {cars: items }); 
+    });
+  });
 
 
-// showing homepage in a dynamic file
-app.get('/', (req, res) => {
-    res.render('home', { cars: allCars });
-});
+
+// // showing homepage in a dynamic file
+// app.get('/', (req, res) => {
+//     res.render('home', { cars: allCars });
+// });
 
 
 // send plain text response

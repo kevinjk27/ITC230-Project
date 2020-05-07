@@ -3,3 +3,4 @@ node_modules
 
 #ignore files installed by npm
 node_modules
+models/credential.js
