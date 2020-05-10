@@ -1,7 +1,5 @@
 const mongoose = require('mongoose');
 const credential = require('./credential');
-console.log(credential.dbuser);
-console.log(credential.dbpassword)
 
 // remote db connection settings. For security, connectionString should be in a separate file not committed to git
 const connectionString = "mongodb+srv://" + credential.dbuser + ":" + credential.dbpassword + "@cluster0-lpvpm.mongodb.net/test?retryWrites=true&w=majority";
