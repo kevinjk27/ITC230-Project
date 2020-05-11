@@ -1,16 +1,20 @@
 {{! server-side comment }}
 
-<title>Car model: {{msrp}}</title>
-{{! if..else block }}
+<title>Car model: {{make}}</title>
 
-{{#if make}}
-<h2>Make : {{car.make}}</h2>
-<h2>Model : {{car.model}}</h2>
-<h2>Engine : {{car.engine}}</h2>
-<h2>MPG : {{car.mpg}}</h2>
-<h2>MSRP : $ {{car.msrp}}</h2>
+{{! if..else block }}
+{{#if cars}}
+<h2>Make : {{cars.make}}</h2>
+<h2>Model : {{cars.model}}</h2>
+<h2>Engine : {{cars.engine}}</h2>
+<h2>MPG : {{cars.mpg}}</h2>
+<h2>MSRP : $ {{cars.msrp}}</h2>
 {{else}}
   <h2>Please enter a new car model</h2>
 {{/if}}
 
 <h1><a href="/">Back to Home</a></h1>
+
+
+
+{{!-- Use {{car.make}} if using Express local data (from array) --}}
