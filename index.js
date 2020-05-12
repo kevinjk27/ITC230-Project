@@ -68,6 +68,20 @@ app.get('/detail', (req, res, next) => {
 });
 
 
+//delete an item in MongoDB from a query being passed
+app.get('/delete', (req, res) => {
+  let deleteItem = req.query.carmake;
+  return Car.deleteOne({ "make": deleteItem }).lean()
+    .then((resultDeletedItem) => {
+      res.set('Content-Type', 'text/html')
+      res.send(`<h3>You have deleted ${deleteItem} </h3>
+      <h3> Delete count =  ${resultDeletedItem.deletedCount}</h3>
+      <p><a href = "/">Home</a></p>`);
+    })
+    .catch(err => next(err));
+});
+
+
 
 // define 404 handler
 app.use((req, res) => {
