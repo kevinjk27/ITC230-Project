@@ -19,6 +19,7 @@
   "homepage": "https://github.com/kevinjk27/ITC230-Project#readme",
   "dependencies": {
     "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
     "express": "^4.17.1",
     "express-handlebars": "^4.0.3",
     "mongoose": "^5.9.12"

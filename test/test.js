@@ -23,12 +23,12 @@ describe('getItem function testing', function () {
 describe('addItem test', function () {
     //success condition
     it('Adds a new item to the data array, if it doesn\'t exist', function () {
-        let outcome = cars.addItem("Camaro")
+        let outcome = cars.addItem({ make: 'Chevrolet', model: 'Camaro', engine: '2.0 L 4-cylinder', mpg: 22, msrp: 25990 })
         expect(outcome.success).to.be.true;
     });
     //failure condition
     it('Returns false when the parameter has already existed in array', () => {
-        let outcome = cars.addItem("Atlas")
+        let outcome = cars.addItem({ make: 'Volkswagen', model: 'Atlas', engine: '3.6 L V6', mpg: 20, msrp: 31545 })
         expect(outcome.success).to.be.false;
     })
 });
@@ -38,7 +38,7 @@ describe('addItem test', function () {
 describe('deleteItem test', function () {
     //success condition
     it('Deletes the item and return true', function () {
-        let outcome = cars.deleteItem("Atlas")
+        let outcome = cars.deleteItem("M3")
         expect(outcome.success).to.be.true;
     });
 

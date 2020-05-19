@@ -56,6 +56,9 @@ app.get('/about', (req, res) => {
 //  });
 
 
+
+
+
 //send content of 'home' (detail page) view using MongoDB
 app.get('/detail', (req, res, next) => {
   let searchItem = req.query.make
@@ -80,6 +83,74 @@ app.get('/delete', (req, res) => {
     })
     .catch(err => next(err));
 });
+
+// set Access-Control-Allow-Origin header for api route
+app.use('/api', require('cors')());
+
+//Using API to display one item from MongoDB
+app.get('/api/cars/:make', (req, res) => {
+  Car.findOne({ make: req.params.make }).lean()
+    .then((car) => {
+      res.json(car);
+    })
+    .catch(err => next(err));
+});
+
+//Using API to display all item from MongoDB
+app.get('/api/cars', (req, res) => {
+  Car.find({}).lean()
+    .then((cars) => {
+      res.json(cars);
+    })
+    .catch(err => next(err));
+});
+
+//Using API to display all item from MongoDB
+app.get('/api/cars/delete', (req, res) => {
+  let removeItem = req.query.carmake;
+  return Car.deleteOne({ "make": removeItem }).lean()
+    .then((resultRemoved) => {
+      res.json(Car)
+    })
+});
+
+//return only car make,model and price
+app.get('/api/cars/price', (res) => {
+  res.json(Car.find().lean().map((eachCar)
+    .then((eachCar => {
+      return {
+        make: eachCar.make,
+        model: eachCar.model,
+        price: eachCar.msrp
+      }
+    })
+    ))
+  )
+});
+
+
+// insert or update a single record
+// It will search for make:'Jeep' and if it exists it will replace the found object with 'newCar'.
+// And if it's not true it won't do anything since we use upsert:true?
+// app.get('/api/cars/newcar', (req, res) => {
+const newCar = { make: 'Jeep', model: 'Wrangler Gen II', engine: '2.0 L 4-cylinder', mpg: 22, msrp: 28295 }
+Car.update({ make: newCar.make }, newCar, { upsert: true }, (err, result) => {
+  if (err) return next(err);
+  console.log(result);
+})
+//   res.json(Car);
+// })
+
+
+
+
+
+
+
+
+
+
+
 
 
 

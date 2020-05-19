@@ -34,16 +34,17 @@ exports.getItem = (model) => {
     })
 };
 
-
-exports.addItem = (model) => {
+//expect to pass the parameter as an object
+exports.addItem = (newcar) => {
     //checking if the parameter is inside the array
-    if (cars.some(item => item.model === model) !== false) {
-        console.log(model + " has already existed in array!")
+    let found = cars.find((item) => {
+        return item.model === newcar.model;
+    });
+    if (found) {
         return { 'success': false }
-
-    //if not inside the array add this item
+        //if not inside the array add this item
     } else {
-        cars.splice(cars.length, 0, { make: 'Chevrolet', model: 'Camaro', engine: '2.0 L 4-cylinder', mpg: 22, msrp: 25990 })
+            cars.push(newcar)
         // console.log (cars)
         return { 'success': true }
     }
