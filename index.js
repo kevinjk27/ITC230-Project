@@ -30,7 +30,8 @@ const Car = require("./models/cars");
 app.get('/', (req, res, next) => {
   Car.find({}).lean()
     .then((cars) => {
-      res.render('home', { cars });
+      // res.render('home', { cars });
+      res.render('home_react', {items: JSON.stringify(cars)});
     })
     .catch(err => next(err));
 });
@@ -74,6 +75,7 @@ app.get('/detail', (req, res, next) => {
 //delete an item in MongoDB from a query being passed
 app.get('/delete', (req, res) => {
   let deleteItem = req.query.carmake;
+  console.log(deleteItem)
   return Car.deleteOne({ "make": deleteItem }).lean()
     .then((resultDeletedItem) => {
       res.set('Content-Type', 'text/html')
@@ -86,6 +88,40 @@ app.get('/delete', (req, res) => {
 
 // set Access-Control-Allow-Origin header for api route
 app.use('/api', require('cors')());
+
+// const newCar = { make: 'Jeep', model: 'Wrangler Gen II', engine: '2.0 L 4-cylinder', mpg: 22, msrp: 28295 }
+// insert or update a single record
+// It will search for make:'Jeep' and if it exists it will replace the found object with 'newCar'.
+// And if it's not true it won't do anything since we use upsert:true?
+app.post('/api/cars/add', (req, res) => {
+  console.log(req.body);
+  const newCar = req.body;
+  Car.update({ make: newCar.make }, newCar, { upsert: true }, (err, result) => {
+    // if (err) return next(err);
+    // console.log(result)
+    if (result.nModified == 0) {
+      console.log("A new car is added")
+      res.json({ fileChangedCount: result.nModified })
+    } else {
+      console.log("File has been updated")
+      res.json({ fileChangedCount: result.nModified })
+    }
+
+  })
+})
+
+
+//Using API to display all item from MongoDB
+app.get('/api/cars/delete', (req, res) => {
+  let removeItem = req.query.carmake;
+  console.log(removeItem)
+  return Car.deleteOne({ "make": removeItem }).lean()
+    .then((resultRemoved) => {
+      console.log(resultRemoved)
+      res.json({ deleted: resultRemoved.deletedCount > 0 }
+      )
+    })
+});
 
 //Using API to display one item from MongoDB
 app.get('/api/cars/:make', (req, res) => {
@@ -105,14 +141,7 @@ app.get('/api/cars', (req, res) => {
     .catch(err => next(err));
 });
 
-//Using API to display all item from MongoDB
-app.get('/api/cars/delete', (req, res) => {
-  let removeItem = req.query.carmake;
-  return Car.deleteOne({ "make": removeItem }).lean()
-    .then((resultRemoved) => {
-      res.json(Car)
-    })
-});
+
 
 //return only car make,model and price
 app.get('/api/cars/price', (res) => {
@@ -127,24 +156,6 @@ app.get('/api/cars/price', (res) => {
     ))
   )
 });
-
-
-// insert or update a single record
-// It will search for make:'Jeep' and if it exists it will replace the found object with 'newCar'.
-// And if it's not true it won't do anything since we use upsert:true?
-// app.get('/api/cars/newcar', (req, res) => {
-const newCar = { make: 'Jeep', model: 'Wrangler Gen II', engine: '2.0 L 4-cylinder', mpg: 22, msrp: 28295 }
-Car.update({ make: newCar.make }, newCar, { upsert: true }, (err, result) => {
-  if (err) return next(err);
-  console.log(result);
-})
-//   res.json(Car);
-// })
-
-
-
-
-
 
 
 

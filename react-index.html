@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>React Index</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+    <script src='main.js'></script>
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+</head>
+
+
+
+<body>
+
+    <h2>React Index</h2>
+    <div id="root">
+        <script type="text/babel">
+
+            let cars = [
+                { make: 'Toyota', model: 'Supra', engine: '3.0 L 6-cylinder', mpg: 24, msrp: 49990 },
+                { make: 'Volkswagen', model: 'Atlas', engine: '3.6 L V6', mpg: 20, msrp: 31545 },
+                { make: 'BMW', model: 'M3', engine: '3.0 L 6-cylinder', mpg: 17, msrp: 67495 },
+                { make: 'Land Rover', model: 'Range Rover Velar', engine: '3.0 L 6-cylinder', mpg: 17, msrp: 56300 },
+                { make: 'Audi', model: 'Q7', engine: '2.0 L 4-inline', mpg: 20, msrp: 54800 },
+                { make: 'Honda', model: 'Pilot', engine: '3.5 L V6', mpg: 20, msrp: 31650 }
+            ];
+
+            const GetMake = (props) => {
+                console.log(props)
+                const list_engine = props.cars.map((each) => {
+                    return <li onClick={props.clickHandler} key={each.make}>{each.make}</li>
+                })
+                return <div>
+                    <h2>Car Lists:</h2>
+                    <ul>{list_engine}</ul>
+                    <hr />
+                </div>;
+
+            }
+
+            const GetDetail = (props) => {
+
+                return <div> <b>Detail for: {props.cars.make}</b>
+                    <p>Model : {props.cars.model}</p>
+                    <p>Engine : {props.cars.engine}</p>
+                    <p>MPG : {props.cars.mpg}</p>
+                    <p>Price : $ {props.cars.msrp}</p>
+
+
+                </div>;
+
+            }
+
+
+
+            class App extends React.Component {
+                constructor(props) {
+                    super(props);
+                    this.state = { currentCar: {} }; //looking for the currentCar
+
+                    // This binding is necessary to make `this` work in the callback
+                    this.handleClick = this.handleClick.bind(this);
+                }
+
+                handleClick(e) {
+                    let clicked = e.target.innerText
+                    let newCar = cars.find((item) => {
+                        return item.make == clicked
+                    })
+                    console.log(newCar)
+                    this.setState({
+                        currentCar: newCar
+                    });
+                }
+
+                render() {
+                    return (
+                        <div>
+                            <GetMake cars={cars} clickHandler={this.handleClick} />
+                            <GetDetail cars={this.state.currentCar} />
+                        </div>
+                    );
+                }
+            }
+
+            ReactDOM.render(
+                <App />,
+                document.getElementById('root')
+            );
+
+
+
+        </script>
+</body>
+
+</html>

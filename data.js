@@ -34,8 +34,8 @@ exports.getItem = (model) => {
     })
 };
 
-//expect to pass the parameter as an object
-exports.addItem = (newcar) => {
+
+exports.addItem = (newcar) => { //expect to pass the parameter as an object
     //checking if the parameter is inside the array
     let found = cars.find((item) => {
         return item.model === newcar.model;
