@@ -14,30 +14,76 @@
   <div id="root"></div>
   <script type="text/babel">
 
+    const CarList = (props) => {
+      console.log(props)
+      return <div>
+        <h1>Click one for more details</h1>
+        <ul>
+        {props.items.map(item => <li onClick={props.clickHandler} key={item.make}>{item.make}</li>)}
+      </ul>
+      <hr />
+      </div>
+  
+     
+    }
+
+    const CarDetail = (props) => {
+      return<div>
+<form>
+    <p>Make : <input type="text" name="make" value={props.item.make || ""}/></p>
+    <p>Mode : <input type="text" name="model" value={props.item.model || ""}/></p>
+    <p>Engine : <input type="text" name="engine" value={props.item.engine || ""}/></p>
+    <p>MPG : <input type="text" name="mpg" value={props.item.mpg || ""}/></p>
+    <p>Price : $ <input type="text" name="msrp" value={props.item.msrp || ""}/></p>
+
+
+  </form>
+  <button>Save</button>
+        <p>Make: {props.item.make}</p>
+        <p>Model: {props.item.model}</p>
+        <p>Engine: {props.item.engine}</p>
+        <p>MPG: {props.item.mpg}</p>
+        <p>Price: ${props.item.msrp}</p>
+      </div>
+    }
+
     class App extends React.Component {
       constructor(props) {
         super(props);
         // Set initial state using data from server application
         this.state = {
-          items: {{{ cars }}},
-          curItem: { } // current selected item
-        }
-
-
-        
+        items: {{{cars}}},
+        currentCar: {} // current selected item -- what car do u wanna see?
       }
-
-      render() {
-        // render app UI elements
-        return (
-          <div>
-            <h2>Components go here</h2>
+    this.handleClick = this.handleClick.bind(this);
+  }
 
 
-          </div>
-        );
-      }
+    handleClick(e) {
+      let clicked = e.target.innerText
+      let newCar = this.state.items.find((item) => {
+        return item.make == clicked
+      })
+      this.setState({
+        currentCar: newCar
+      });
+      
+
     }
+
+
+    render() {
+      // render app UI elements
+      return (
+        <div>
+          <CarList items={this.state.items} clickHandler={this.handleClick} />
+          <CarDetail item={this.state.currentCar}/>
+        </div>
+      );
+    }
+    }
+
+
 
 
     ReactDOM.render(<App />, document.getElementById('root'));

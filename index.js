@@ -31,7 +31,7 @@ app.get('/', (req, res, next) => {
   Car.find({}).lean()
     .then((cars) => {
       // res.render('home', { cars });
-      res.render('home_react', {items: JSON.stringify(cars)});
+      res.render('home_react', {cars: JSON.stringify(cars)});
     })
     .catch(err => next(err));
 });

@@ -18,7 +18,8 @@
 <body>
     <h2>React Demo 1</h2>
 
-    <div id="root" />
+    <div id="root1"></div>
+    <div id="root2"></div>
     <script type="text/babel">
 
 
@@ -49,27 +50,51 @@
                 <Welcome />
             </div>
         }
-        ReactDOM.render(<Welcome name="Jorge" age="32" status="" phone="509-902-0123" />, document.getElementById('root'));
+        // ReactDOM.render(<Welcome name="Jorge" age="32" status="" phone="509-902-0123" />, document.getElementById('root1'));
 
-        ReactDOM.render(<App />, document.getElementById('root'));
+        ReactDOM.render(<App />, document.getElementById('root1'));
         //   const greeting = getGreeting();
         //     const greeting = <h1>Hello, world</h1>;
 
 
-// Clock example
+        // Clock example
         class Clock extends React.Component {
             constructor(props) {
                 super(props);
                 this.state = { date: new Date() };
             }
+
+            componentDidMount() { //runs after the component output has been rendered to the DOM
+                this.timerID = setInterval(
+                    () => this.tick(),
+                    1000
+                );
+            }
+
+            componentWillUnmount() { // code to execute when component is removed from DOM
+                clearInterval(this.timerID);
+            }
+
+            tick() { // modifying the component local state using set state
+                this.setState({
+                    date: new Date()
+                });
+            }
+
             render() {
-                return (<div> <h1>Hello, world!</h1>  
-                    <h2>It is {this.state.date.toLocaleTimeString()}.</h2> 
-                     </div>);
+                return (
+                    <div>
+                        <h1>Hello, world!</h1>
+                        <h2>It is {this.state.date.toLocaleTimeString()}.</h2>
+                    </div>
+                );
             }
         }
 
-        // ReactDOM.render(<Clock />, document.getElementById('root'));
+        ReactDOM.render(
+            <Clock />,
+            document.getElementById('root2')
+        );
 
     </script>
 </body>
