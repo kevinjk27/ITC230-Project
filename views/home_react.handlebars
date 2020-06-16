@@ -13,37 +13,31 @@
 
   <div id="root"></div>
   <script type="text/babel">
-
     const CarList = (props) => {
       console.log(props)
       return <div>
         <h1>Click one for more details</h1>
         <ul>
-        {props.items.map(item => <li onClick={props.clickHandler} key={item.make}>{item.make}</li>)}
-      </ul>
-      <hr />
+          {props.items.map(item => <li onClick={props.clickHandler} key={item.make}>{item.make}</li>)}
+        </ul>
+        <hr />
       </div>
-  
-     
+
+
     }
 
     const CarDetail = (props) => {
-      return<div>
-<form>
-    <p>Make : <input type="text" name="make" value={props.item.make || ""}/></p>
-    <p>Mode : <input type="text" name="model" value={props.item.model || ""}/></p>
-    <p>Engine : <input type="text" name="engine" value={props.item.engine || ""}/></p>
-    <p>MPG : <input type="text" name="mpg" value={props.item.mpg || ""}/></p>
-    <p>Price : $ <input type="text" name="msrp" value={props.item.msrp || ""}/></p>
-
-
-  </form>
-  <button>Save</button>
-        <p>Make: {props.item.make}</p>
-        <p>Model: {props.item.model}</p>
-        <p>Engine: {props.item.engine}</p>
-        <p>MPG: {props.item.mpg}</p>
-        <p>Price: ${props.item.msrp}</p>
+      return <div>
+        <form>
+          <p>Make : <input onChange={props.changeHandler} type="text" name="make" value={props.item.make || ""} /></p>
+          <p>Mode : <input onChange={props.changeHandler} type="text" name="model" value={props.item.model || ""} /></p>
+          <p>Engine : <input onChange={props.changeHandler} type="text" name="engine" value={props.item.engine || ""} /></p>
+          <p>MPG : <input onChange={props.changeHandler} type="text" name="mpg" value={props.item.mpg || ""} /></p>
+          <p>Price : $ <input onChange={props.changeHandler} type="text" name="msrp" value={props.item.msrp || ""} /></p>
+        </form>
+        <button onClick={props.saveHandler} >Save</button> <br />
+        <button onClick={props.onReset}>Reset</button> <br />
+        <button onClick={props.onDelete} >Delete</button>
       </div>
     }
 
@@ -52,13 +46,19 @@
         super(props);
         // Set initial state using data from server application
         this.state = {
-        items: {{{cars}}},
-        currentCar: {} // current selected item -- what car do u wanna see?
-      }
+          items: {{{cars}}},
+      currentCar: {} // current selected item -- what car do u wanna see?
+    }
+    //bind that function with the class
     this.handleClick = this.handleClick.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.postChange = this.postChange.bind(this);
+    this.onReset = this.onReset.bind(this);
+    this.onDelete = this.onDelete.bind(this);
   }
 
 
+    //to get the current car when user clicks on an item in the list
     handleClick(e) {
       let clicked = e.target.innerText
       let newCar = this.state.items.find((item) => {
@@ -67,8 +67,71 @@
       this.setState({
         currentCar: newCar
       });
-      
 
+    }
+
+
+    //update the state locally
+    handleChange(e){
+      console.log(e.target.value);
+
+      var newItem = this.state.currentCar;
+      newItem[event.target.name] = event.target.value;
+      this.setState({ currentCar: newItem });
+
+    }
+
+
+
+
+    postChange(){
+      const newCar = this.state.currentCar;
+      if (!newCar.make) {
+        return; //terminates here if there is no make on it
+      }
+      delete newCar["_id"]
+      fetch("/api/cars/add", {
+        method: "POST",
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newCar)
+      })
+        .then(res => res.json())
+        .then((data) => {
+          console.log(data);
+          if (data.fileChangedCount > 0) { // update item, item was changed}
+            alert("Car details updated!")
+          }
+          else {
+            // add new item to list 
+            const newItems = this.state.items //snapshot of list
+            newItems.push(newCar)
+            this.setState({ items: newItems });
+
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+
+    onReset(){
+      this.setState({ currentCar: {} });
+    }
+
+
+
+    onDelete(){
+      let makeToDelete = this.state.currentCar.make;
+      fetch("/api/cars/delete?carmake=" + makeToDelete)
+        .then((response) => {
+          return response.json();
+        })
+        .then((result) => {
+          console.log(result)
+          const newItem = this.state.items.filter(car => car.make !== makeToDelete)
+          this.setState({ items: newItem }); //updating the list 
+        })
+        .catch(err => console.log(err))
     }
 
 
@@ -77,7 +140,7 @@
       return (
         <div>
           <CarList items={this.state.items} clickHandler={this.handleClick} />
-          <CarDetail item={this.state.currentCar}/>
+          <CarDetail item={this.state.currentCar} changeHandler={this.handleChange} saveHandler={this.postChange} onReset={this.onReset} onDelete={this.onDelete} />
         </div>
       );
     }

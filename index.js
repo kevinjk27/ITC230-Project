@@ -12,11 +12,13 @@ const exphbs = require("express-handlebars");
 app.set('port', process.env.PORT || 3000);
 app.use(express.static(__dirname + '/public')); // set location for static files
 app.use(bodyParser.urlencoded({ extended: true })); // parse form submissions
+app.use(bodyParser.json());
 //--handlebar config
 app.engine('handlebars', exphbs({ defaultLayout: false }));
 app.set('view engine', 'handlebars');
 //--mongoDB config
 const Car = require("./models/cars");
+
 //<<END CONFIGURATION!!>>
 
 
@@ -96,13 +98,13 @@ app.use('/api', require('cors')());
 app.post('/api/cars/add', (req, res) => {
   console.log(req.body);
   const newCar = req.body;
-  Car.update({ make: newCar.make }, newCar, { upsert: true }, (err, result) => {
+  Car.updateOne({ make: newCar.make }, newCar, { upsert: true }, (err, result) => {
     // if (err) return next(err);
-    // console.log(result)
+     console.log(result)
     if (result.nModified == 0) {
       console.log("A new car is added")
       res.json({ fileChangedCount: result.nModified })
-    } else {
+    } else if(result.nModified > 0) {
       console.log("File has been updated")
       res.json({ fileChangedCount: result.nModified })
     }
