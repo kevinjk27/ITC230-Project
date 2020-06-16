@@ -98,15 +98,17 @@
         .then(res => res.json())
         .then((data) => {
           console.log(data);
-          if (data.fileChangedCount > 0) { // update item, item was changed}
+          if (data.fileChangedCount > 0) { // update item, item was changed
+            const newItems = this.state.items //snapshot of list
+            this.setState({ items: newItems });
             alert("Car details updated!")
           }
           else {
             // add new item to list 
+            alert("A new car just added")
             const newItems = this.state.items //snapshot of list
             newItems.push(newCar)
             this.setState({ items: newItems });
-
           }
         })
         .catch((err) => {
